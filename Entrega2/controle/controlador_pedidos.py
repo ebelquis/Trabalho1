@@ -1,7 +1,5 @@
 from limite.tela_pedido import TelaPedido
 from entidade.pedido import Pedido
-from excessoes.EncontradoNaListaException import EncontradoNaListaException
-from excessoes.NaoEncontradoNaListaException import NaoEncontradoNaListaException
 
 class ControladorPedidos():
 
@@ -22,19 +20,18 @@ class ControladorPedidos():
         dados_pedido = self.__tela_pedido.pega_dados_pedido()
 
         fornecedor = self.__controlador_sistema.controlador_fornecedor.pega_fornecedor_por_cnpj(dados_pedido["cnpj"])
-        pedido = self.__controlador_sistema.controlador_pedido.pega_pedido_por_codigo(dados_pedido["codigo_pedido"])
-        try:
-            if (fornecedor is not None and pedido is not None):
-                pedido = Pedido(dados_pedido["quantidade"], produto,
-                                dados_pedido["data"], (produto.preco_venda * dados_pedido["quantidade"]), 
-                                fornecedor, dados_pedido["frete"], dados_pedido["prazo_entrega"])
-                self.__controlador_sistema.controlador_pedido.aumenta_quantidade_estoque(pedido, dados_pedido["quantidade"])
-                self.__pedidos.append(pedido)
-            else:
-                raise EncontradoNaListaException()
-        except EncontradoNaListaException as e:
-            self.__tela_pedido.mostra_mensagem(e)
-    
+        produto = self.__controlador_sistema.controlador_produto.pega_produto_por_codigo(dados_pedido["codigo_produto"])
+
+        if (fornecedor is not None and produto is not None):
+            pedido = Pedido(dados_pedido["quantidade"], produto,
+                           dados_pedido["data"], (produto.preco_venda * dados_pedido["quantidade"]), 
+                           fornecedor, dados_pedido["frete"], dados_pedido["prazo_entrega"])
+            
+            self.__controlador_sistema.controlador_produto.aumenta_quantidade_estoque(produto, dados_pedido["quantidade"])
+            self.__pedidos.append(pedido)
+        else:
+            self.__tela_pedido.mostra_mensagem("Dados inválidos")
+
     def lista_pedido(self):
         for pedido in self.__pedidos:
             self.__tela_pedido.mostra_pedido({"codigo": pedido.codigo,
@@ -49,16 +46,14 @@ class ControladorPedidos():
         self.lista_pedido()
         codigo_pedido = self.__tela_pedido.seleciona_pedido()
         pedido = self.pega_pedido_por_codigo(codigo_pedido)
-        try:
-            if (pedido is not None):
-                quantidade = -1 * (int(pedido.quantidade))
-                self.__controlador_sistema.controlador_produto.aumenta_quantidade_estoque(pedido, quantidade)
-                self.__pedidos.remove(pedido)
-                self.lista_pedido()
-            else:
-                raise EncontradoNaListaException()
-        except EncontradoNaListaException as e:
-            self.__tela_pedido.mostra_mensagem(e)
+        quantidade = -1 * (int(pedido.quantidade))
+
+        if (pedido is not None):
+            self.__controlador_sistema.controlador_produto.aumenta_quantidade_estoque(pedido, quantidade)
+            self.__pedidos.remove(pedido)
+            self.lista_pedido()
+        else:
+            self.__tela_venda.mostra_mensagem("ATENCAO: Pedido não existente")
 
     def retornar(self):
         self.__controlador_sistema.abre_tela()

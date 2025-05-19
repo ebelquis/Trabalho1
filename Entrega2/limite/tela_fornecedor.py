@@ -1,5 +1,3 @@
-from excessoes.OpcaoErroException import OpcaoErroException
-
 class TelaFornecedor():
     def tela_opcoes(self):
         print("-------- AMIGOS ----------")
@@ -13,51 +11,16 @@ class TelaFornecedor():
         print("7 - Listar Enderecos do Forcedor")
         print("0 - Retornar")
 
-        try:
-            opcao = int(input("Escolha a opcao: "))
-            if opcao not in [0, 1, 2, 3, 4, 5, 6, 7]:
-                raise OpcaoErroException()
-            return opcao
-        except OpcaoErroException as e:
-            self.__tela_venda.mostra_mensagem(e)
+        opcao = int(input("Escolha a opcao: "))
+        return opcao
 
     def pega_dados_fornecedor(self):
         print("-------- DADOS FORNECEDORES ----------")
-        
-        while True:
-            try:
-                nome = str(input("Nome: "))
-                break
-            except ValueError:
-                print("nome inválido. Insira algo válido (erro de digitacao).")
-
-        while True:
-            try:
-                cnpj = int(input("Cnpj: "))
-                break
-            except ValueError:
-                print("cnpj inválido. Insira um valor valido (erro de digitacao).")
-
-        while True:
-            try:
-                telefone = int(input("telefone: "))
-                break
-            except ValueError:
-                print("telefone inválido. Insira valor válido (erro de digitacao).")
-
-        while True:
-            try:
-                produto = str(input("produto: "))
-                break
-            except ValueError:
-                print("produto inválido. Insira algo válido (erro de digitacao).")
-
-        while True:
-            try:
-                preco = float(input("preco: "))
-                break
-            except ValueError:
-                print("preco inválido. Insira valor válido (erro de digitacao).")
+        nome = input("Nome: ")
+        cnpj = input("cnpj: ")
+        telefone = input("telefone: ")
+        produto = input("produto: ")
+        preco = input("preco: ")
 
         return {"nome": nome, "cnpj": cnpj, "telefone": telefone, "produto": produto, "preco": preco,}
 
@@ -71,26 +34,9 @@ class TelaFornecedor():
 
     def pega_dados_endereco(self):
         print("-------- DADOS DO ENDERECO ----------")
-        while True:
-            try:
-                cep = int(input("cep: "))
-                break
-            except ValueError:
-                print("cep inválido. Insira valor válido (erro de digitacao).")
-
-        while True:
-            try:
-                rua = str(input("rua: "))
-                break
-            except ValueError:
-                print("rua inválida. Insira algo válido (erro de digitacao).")
-
-        while True:
-            try:
-                numero = int(input("numero: "))
-                break
-            except ValueError:
-                print("numero inválido. Insira valor válido (erro de digitacao).")
+        cep = input("cep: ")
+        rua = input("rua: ")
+        numero = input("numero: ")
 
         return {"cep": cep, "rua": rua, "numero": numero}
 
@@ -101,23 +47,12 @@ class TelaFornecedor():
         print("\n")
 
     def seleciona_fornecedor(self):
-        while True:
-            try:
-                cnpj = int(input("Cnpj do fornecedor que deseja selecionar: "))
-                break
-            except ValueError:
-                print("Esse valor é invalido (erro de digitacao)!") 
-            return cnpj
-
+        cnpj = input("Cnpj do fornecedor que deseja selecionar: ")
+        return cnpj
 
     def seleciona_endereco(self):
-        while True:
-            try:
-                cep = int(input("Cep do fornecedor que deseja selecionar: "))
-                break
-            except ValueError:
-                print("Esse valor é invalido (erro de digitacao)!") 
-            return cep
+        cep = input("Cep do fornecedor que deseja selecionar: ")
+        return cep
 
     def mostra_mensagem(self, msg):
         print(msg)

@@ -1,8 +1,5 @@
 from limite.tela_produto import TelaProduto
 from entidade.produto import Produto
-from excessoes.EncontradoNaListaException import EncontradoNaListaException
-from excessoes.NaoEncontradoNaListaException import NaoEncontradoNaListaException
-
 
 class ControladorProdutos():
     def __init__(self, controlador_sistema):
@@ -19,45 +16,34 @@ class ControladorProdutos():
     def incluir_produto(self):
         dados_produto = self.__tela_produto.pega_dados_produto()
         codigo = self.pega_produto_por_codigo(dados_produto["codigo"])
-        try:
-            if codigo is None:
-                produto = Produto(dados_produto["nome"], 
-                                  dados_produto["codigo"],
-                                  dados_produto["preco_venda"],
-                                  dados_produto["quant_estoque"])
-                self.__produtos.append(produto)
-            else:
-                raise EncontradoNaListaException()
-        except EncontradoNaListaException as e:
-            self.__tela_produto.mostra_mensagem(e)
+        if codigo is None:
+            produto = Produto(dados_produto["nome"], 
+                              dados_produto["codigo"],
+                              dados_produto["preco_venda"],
+                              dados_produto["quant_estoque"])
+            self.__produtos.append(produto)
+        else:
+            self.__tela_produto.mostra_mensagem("ATENCAO: Produto já existente")
 
     def alterar_preco_produto(self):
         self.lista_produtos()
         codigo_produto = self.__tela_produto.seleciona_produto()
         produto = self.pega_produto_por_codigo(codigo_produto)
-        try:
-            if produto is not None:
-                novos_dados_produto = self.__tela_produto.pega_dados_produto_alterar()
-                produto.preco_venda += int(novos_dados_produto["valor"])
-                self.lista_produtos()
-            else:
-                raise NaoEncontradoNaListaException()
-        except NaoEncontradoNaListaException as e:
-            self.__tela_produto.mostra_mensagem(e)
+        if produto is not None:
+            novos_dados_produto = self.__tela_produto.pega_dados_produto_alterar()
+            produto.preco_venda += int(novos_dados_produto["valor"])
+            self.lista_produtos()
+        else:
+            self.__tela_produto.mostra_mensagem("ATENCAO: Produto não existente")
 
     def alterar_estoque(self):
         self.lista_produtos()
         codigo_produto = self.__tela_produto.seleciona_produto()
         produto = self.pega_produto_por_codigo(codigo_produto)
-        try:
-            if produto is not None:
-                novos_dados_produto = self.__tela_produto.pega_dados_produto_alterar()
-                produto.quant_estoque += int(novos_dados_produto["valor"]) 
-                self.lista_produtos()
-            else:
-                raise NaoEncontradoNaListaException()
-        except NaoEncontradoNaListaException as e:
-            self.__tela_produto.mostra_mensagem(e)
+        if produto is not None:
+            novos_dados_produto = self.__tela_produto.pega_dados_produto_alterar()
+            produto.quant_estoque += int(novos_dados_produto["valor"]) 
+            self.lista_produtos()
 
     def lista_produtos(self):
         for produto in self.__produtos:
@@ -70,14 +56,11 @@ class ControladorProdutos():
         self.lista_produtos()
         codigo_produto = self.__tela_produto.seleciona_produto()
         produto = self.pega_produto_por_codigo(codigo_produto)
-        try:
-            if produto is not None:
-                self.__produtos.remove(produto)
-                self.lista_produtos()
-            else:
-                raise NaoEncontradoNaListaException()
-        except NaoEncontradoNaListaException as e:
-            self.__tela_produto.mostra_mensagem(e)
+        if produto is not None:
+            self.__produtos.remove(produto)
+            self.lista_produtos()
+        else:
+            self.__tela_produto.mostra_mensagem("ATENCAO: Produto não existente")
 
     def retornar(self):
         self.__controlador_sistema.abre_tela()

@@ -1,7 +1,3 @@
-from datetime import datetime
-from excessoes.OpcaoErroException import OpcaoErroException
-
-
 class TelaPedido():
     def tela_opcoes(self):
         print("-------- PEDIDOS ----------")
@@ -11,65 +7,18 @@ class TelaPedido():
         print("3 - Excluir Pedido")
         print("0 - Retornar")
 
-        try:
-            opcao = int(input("Escolha a opcao: "))
-            if opcao not in [0, 1, 2, 3]:
-                raise OpcaoErroException()
-            return opcao
-        except OpcaoErroException as e:
-            self.mostra_mensagem(e)
+        opcao = int(input("Escolha a opcao: "))
+        return opcao
 
     def pega_dados_(self):
         print("-------- DADOS PEDIDOS ----------")
-        while True:
-            try:
-                cnpj = int(input("CNPJ do fornecedor: "))
-                break
-            except ValueError:
-                print("cnpj inválido. Insira um valor valido.")
-
-        while True:
-            try:
-                codigo = int(input("Codigo do pedido: "))
-                break
-            except ValueError:
-                print("codigo inválido. Insira um valor valido. (erro de digitacao)")
-
-        while True:
-            try:
-                codigo_produto = int(input("Codigo do produto: "))
-                break
-            except ValueError:
-                print("codigo inválido. Insira um valor valido (erro de digitacao).")
-
-        while True:
-            try:
-                quantidade = int(input("Quantidade do pedido:  "))
-                break
-            except ValueError:
-                print("quantidade inválida. Insira um valor valido (erro de digitacao).")
-
-        while True:
-            try:
-                data = input("Data do pedido (exemplo de entrada: 29/08/2005): ")
-                data = datetime.strptime(data, "%d/%m/%Y")  
-                break
-            except ValueError:
-                print("Data inválida. Insira a data no formato (dd/mm/yyyy).")
-
-        while True:
-            try:
-                valor_frete = int(input("Valor do frete do pedido: "))
-                break
-            except ValueError:
-                print("insira um valor valido (erro de digitacao).")
-
-        while True:
-            try:
-                prazo_entrega = int(input("prazo do pedido (exemplo de entrada: 14): "))
-                break
-            except ValueError:
-                print("Prazo inválido. Insira o prazo certo (erro de digitacao)!")
+        cnpj = input("CNPJ do fornecedor: ")
+        codigo = input("Codigo do pedido: ")
+        codigo_produto = input("Codigo do Produto: ")
+        quantidade = input("Quantidade do pedido: ")
+        data = input("Data do pedido feito: ")
+        valor_frete = input("Valor do frete do pedido: ")
+        prazo_entrega = input("Prazo do pedido: ")
 
         return {"cnpj": cnpj, "codigo": codigo,
                 "codigo_produto": codigo_produto,
@@ -91,13 +40,8 @@ class TelaPedido():
         print("\n")
 
     def seleciona_pedido(self):
-        while True:
-            try:
-                codigo = int(input("Código do pedido que deseja selecionar: "))
-                break
-            except ValueError:
-                print("digite um valor valido (erro de digitacao)")
-            return codigo
+        codigo = input("Código do pedido que deseja selecionar: ")
+        return codigo
 
     def mostra_mensagem(self, msg):
         print(msg)

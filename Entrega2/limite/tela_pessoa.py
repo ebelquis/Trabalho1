@@ -1,62 +1,25 @@
-from excessoes.OpcaoErroException import OpcaoErroException
-
 class TelaPessoa():
     def tela_opcoes(self):
         print("-------- PESSOAS ----------")
         print("Escolha a opção")
-        print("1 - Incluir Pessoa")
-        print("2 - Alterar Pessoa")
+        print("1 - Incluir Cliente")
+        print("2 - Incluir Vendedor")
         print("3 - Listar Clientes")
-        print("4 - Listar Vendedores")
-        print("5 - Excluir Pessoa")
+        print("4 - Excluir Cliente")
+        print("5 - Listar Vendedores")
+        print("6 - Excluir Vendedor")
         print("0 - Retornar")
 
-        try:
-            opcao = int(input("Escolha a opcao: "))
-            if opcao not in [0, 1, 2, 3, 4, 5]:
-                raise OpcaoErroException()
-            return opcao
-        except OpcaoErroException as e:
-            self.mostra_mensagem(e)
+        opcao = int(input("Escolha a opção: "))
+        return opcao
 
     def pega_dados_pessoa(self):
         print("-------- DADOS PESSOA ---------")
-        print("Escolha uma opção")
-        print("0 - Vendedor")
-        print("1 - Cliente")
-        try:
-            selecionador = input("Escolha a opção: ")
-            if selecionador not in [0, 1]:
-                raise OpcaoErroException()
-            return selecionador
-        except OpcaoErroException as e:
-           self. mostra_mensagem(e)
+        nome = input("Nome: ")
+        cpf = input("CPF: ")
+        celular = input("Celular: ")
 
-        while True:
-            try:
-                nome = str(input("Nome:"))
-                break
-            except ValueError:
-                print("nome inválido. Insira um nome valido.")
-
-        while True:
-            try:
-                cpf = int(input("CPF:"))
-                break
-            except ValueError:
-                print("cpf inválido. Insira um valor valido.")
-    
-        while True:
-            try:
-                celular = int(input("celular:"))
-                break
-            except ValueError:
-                print("celular inválido. Insira um celular valido.")
-
-        return {"selecionador": selecionador,
-                "nome": nome,
-                "cpf": cpf,
-                "celular": celular}
+        return {"nome": nome, "cpf": cpf, "celular": celular}
 
     def mostra_cliente(self, dados_cliente):
         print("------CLIENTE------")
@@ -74,25 +37,8 @@ class TelaPessoa():
         print("\n")
     
     def seleciona_pessoa(self):
-        print("Escolha uma opção")
-        print("0 - Vendedor")
-        print("1 - Cliente")
-
-        try:
-            selecionador = input("Escolha a opção: ")
-            if selecionador not in [0, 1]:
-                raise OpcaoErroException()
-            return selecionador
-        except OpcaoErroException as e:
-            self.mostra_mensagem(e)
-
-        while True:
-            try:
-                cpf = input("CPF da pessoa que deseja selecionar: ")
-            except ValueError:
-                print("Cpf invalido. Digite novamente.")
-        
-        return selecionador, cpf
+        cpf = input("CPF da pessoa que deseja selecionar: ")
+        return cpf
 
     def mostra_mensagem(self, msg):
         print(msg)

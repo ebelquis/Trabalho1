@@ -3,8 +3,8 @@ from entidade.fornecedor import Fornecedor
 from excessoes.EncontradoNaListaException import EncontradoNaListaException
 from excessoes.NaoEncontradoNaListaException import NaoEncontradoNaListaException
 
-class ControladorFornecedores:
-    
+
+class ControladorFornecedores: 
     def __init__(self, controlador_sistema):
         self.__fornecedores = []
         self.__tela_fornecedor = TelaFornecedor()
