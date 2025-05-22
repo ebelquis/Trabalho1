@@ -1,9 +1,12 @@
 from limite.tela_produto import TelaProduto
 from entidade.produto import Produto
 
+caneca = Produto("caneca", 1, 20.00, 10)
+camisa = Produto('camisa m', 21, 40.00, 6)
+
 class ControladorProdutos():
     def __init__(self, controlador_sistema):
-        self.__produtos = []
+        self.__produtos = [caneca, camisa]
         self.__controlador_sistema = controlador_sistema
         self.__tela_produto = TelaProduto()
 

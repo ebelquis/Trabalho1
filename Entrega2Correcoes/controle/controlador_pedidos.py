@@ -15,19 +15,19 @@ class ControladorPedidos():
         return None
 
     def incluir_pedido(self):
-        self.__controlador_sistema.controlador_fornecedor.lista_fornecedores()
-        self.__controlador_sistema.controlador_produto.lista_produtos()
-        dados_pedido = self.__tela_pedido.pega_dados_pedido()
+        self.__controlador_sistema.controlador_fornecedores.lista_fornecedores()
+        self.__controlador_sistema.controlador_produtos.lista_produtos()
+        dados_pedido = self.__tela_pedido.pega_dados_()
 
-        fornecedor = self.__controlador_sistema.controlador_fornecedor.pega_fornecedor_por_cnpj(dados_pedido["cnpj"])
-        produto = self.__controlador_sistema.controlador_produto.pega_produto_por_codigo(dados_pedido["codigo_produto"])
+        fornecedor = self.__controlador_sistema.controlador_fornecedores.pega_fornecedor_por_cnpj(dados_pedido["cnpj"])
+        produto = self.__controlador_sistema.controlador_produtos.pega_produto_por_codigo(dados_pedido["codigo_produto"])
 
         if (fornecedor is not None and produto is not None):
             pedido = Pedido(dados_pedido["quantidade"], produto,
                            dados_pedido["data"], (produto.preco_venda * dados_pedido["quantidade"]), 
                            fornecedor, dados_pedido["frete"], dados_pedido["prazo_entrega"])
             
-            self.__controlador_sistema.controlador_produto.aumenta_quantidade_estoque(produto, dados_pedido["quantidade"])
+            self.__controlador_sistema.controlador_produtos.aumenta_quantidade_estoque(produto, dados_pedido["quantidade"])
             self.__pedidos.append(pedido)
         else:
             self.__tela_pedido.mostra_mensagem("Dados inválidos")
@@ -49,7 +49,7 @@ class ControladorPedidos():
         quantidade = -1 * (int(pedido.quantidade))
 
         if (pedido is not None):
-            self.__controlador_sistema.controlador_produto.aumenta_quantidade_estoque(pedido, quantidade)
+            self.__controlador_sistema.controlador_produtos.aumenta_quantidade_estoque(pedido, quantidade)
             self.__pedidos.remove(pedido)
             self.lista_pedido()
         else:

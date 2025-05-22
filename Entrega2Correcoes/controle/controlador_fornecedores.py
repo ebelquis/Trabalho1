@@ -1,10 +1,12 @@
 from limite.tela_fornecedor import TelaFornecedor
 from entidade.fornecedor import Fornecedor
+from entidade.produto import Produto
 
 class ControladorFornecedores:
     
     def __init__(self, controlador_sistema):
-        self.__fornecedores = []
+        self.__fornecedores = [Fornecedor("Gumege Alumínios", 1111, 4899, Produto("caneca", 1, 20.00, 10), 10.00), 
+                               Fornecedor("Somar", 2222, 549, Produto('camisa m', 21, 40.00, 6), 25.00)]
         self.__tela_fornecedor = TelaFornecedor()
         self.__controlador_sistema = controlador_sistema
 
@@ -12,7 +14,8 @@ class ControladorFornecedores:
         for fornecedor in self.__fornecedores:
             if fornecedor.cnpj == cnpj:
                 return fornecedor
-        return None
+        else:
+            return None
 
     def incluir_fornecedor(self):
         dados_fornecedor = self.__tela_fornecedor.pega_dados_fornecedor()

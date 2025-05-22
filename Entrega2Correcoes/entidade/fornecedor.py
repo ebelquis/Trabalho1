@@ -54,10 +54,10 @@ class Fornecedor:
     def lista_enderecos(self):
         return self.__enderecos
 
-    def incluir_endereco(self, cep = "", rua = "", numero = ""):
+    def incluir_endereco(self, cep: str, rua: str, numero:str):
         self.__enderecos.append(Endereco(cep, rua, numero))
 
-    def remover_endereco(self, cep):
+    def remover_endereco(self, cep: str):
         for endereco in self.__enderecos:
             if endereco.cep == cep:
                 self.__enderecos.remove(endereco)

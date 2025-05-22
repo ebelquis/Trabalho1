@@ -1,12 +1,13 @@
-from limite.tela_sistema import TelaSistema
+
 from controle.controlador_vendas import ControladorVendas
 from controle.controlador_fornecedores import ControladorFornecedores
 from controle.controlador_produtos import ControladorProdutos
 from controle.controlador_pessoas import ControladorPessoas
 from controle.controlador_pedidos import ControladorPedidos
+from limite.tela_sistema import TelaSistema
+
 
 class ControladorSistema:
-
     def __init__(self):
         self.__controlador_vendas = ControladorVendas(self)
         self.__controlador_fornecedores = ControladorFornecedores(self)
@@ -34,7 +35,6 @@ class ControladorSistema:
     @property
     def controlador_pedidos(self):
         return self.__controlador_pedidos
-
 
     def inicializa_sistema(self):
         self.abre_tela()

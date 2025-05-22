@@ -11,7 +11,6 @@ class Venda(Transacao):
         self.__vendedor = vendedor
 
 #adicionar pedido automaticamente para o cliente?
-
     @property
     def cliente(self):
         return self.__cliente

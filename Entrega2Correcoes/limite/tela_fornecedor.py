@@ -27,7 +27,7 @@ class TelaFornecedor():
     def mostra_fornecedor(self, dados_fornecedor):
         print("NOME DO FORNECEDOR: ", dados_fornecedor["nome"])
         print("CNPJ DO FORNECEDOR: ", dados_fornecedor["cnpj"])
-        print("celular DO FORNECEDOR: ", dados_fornecedor["celular"])
+        print("CELULAR DO FORNECEDOR: ", dados_fornecedor["celular"])
         print("PRODUTO DO FORNECEDOR: ", dados_fornecedor["produto"])
         print("PRECO DO FORNECEDOR: ", dados_fornecedor["preco"])
         print("\n")
