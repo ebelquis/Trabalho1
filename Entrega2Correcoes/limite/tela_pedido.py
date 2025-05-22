@@ -8,6 +8,7 @@ class TelaPedido():
         print("0 - Retornar")
 
         opcao = int(input("Escolha a opcao: "))
+        print()
         return opcao
 
     def pega_dados_(self):

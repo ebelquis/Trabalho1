@@ -8,20 +8,21 @@ class TelaVenda():
         print("0 - Retornar")
 
         opcao = int(input("Escolha a opcao: "))
+        print()
         return opcao
 
     def pega_dados_venda(self):
         print("-------- DADOS VENDA ----------")
-        cpf_vendedor = input("Cpf do vendedor: ")
-        cpf_cliente = input("Cpf do cliente: ")
+        vendedor = input("Cpf do vendedor: ")
+        cliente = input("Cpf do cliente: ")
         quantidade = input("Quantidade vendida: ")
         valor = input("Valor da venda: ")
         data = input("Data da venda: ")
         codigo_produto = input("Codigo do produto: ")
         codigo = input("Codigo da venda: ")
 
-        return {"cpf_vendedor": cpf_vendedor, 
-                "cpf_cliente":cpf_cliente,
+        return {"vendedor": vendedor, 
+                "cliente":cliente,
                 "quantidade": quantidade,
                 "valor": valor,
                 "data": data,

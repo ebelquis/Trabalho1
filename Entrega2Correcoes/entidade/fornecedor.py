@@ -51,7 +51,7 @@ class Fornecedor:
         self.__celular = celular
     
     @property
-    def lista_enderecos(self):
+    def enderecos(self):
         return self.__enderecos
 
     def incluir_endereco(self, cep: str, rua: str, numero:str):

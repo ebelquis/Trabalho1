@@ -11,6 +11,7 @@ class TelaPessoa():
         print("0 - Retornar")
 
         opcao = int(input("Escolha a opção: "))
+        print()
         return opcao
 
     def pega_dados_pessoa(self):
@@ -25,14 +26,14 @@ class TelaPessoa():
         print("------CLIENTE------")
         print("NOME DO CLIENTE: ", dados_cliente["nome"])
         print("CPF DO CLIENTE: ", dados_cliente["cpf"])
-        print("TELEFONE DO CLEINTE: ", dados_cliente["telefone"])
+        print("CELULAR DO CLEINTE: ", dados_cliente["celular"])
         print("\n")
 
     def mostra_vendedor(self, dados_vendedor):
         print("------VENDEDOR------")
         print("NOME DO VENDEDOR: ", dados_vendedor["nome"])
         print("CPF DO VENDEDOR: ", dados_vendedor["cpf"])
-        print("TELEFONE DO VENDEDOR: ", dados_vendedor["telefone"])
+        print("CELULAR DO VENDEDOR: ", dados_vendedor["celular"])
         print("VALOR VENDIDO TOTAL DO VENDEDOR: ", dados_vendedor["valor_vendido_total"])
         print("\n")
     

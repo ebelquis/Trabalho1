@@ -25,7 +25,7 @@ class ControladorFornecedores:
             dados_fornecedor["celular"],
             dados_fornecedor["produto"],
             float(dados_fornecedor["preco"])
-        )
+            )
         self.__fornecedores.append(fornecedor)
 
     def alterar_fornecedor(self):
@@ -67,7 +67,8 @@ class ControladorFornecedores:
                 "cnpj": fornecedor.cnpj,
                 "celular": fornecedor.celular,
                 "produto": fornecedor.produto,
-                "preco": fornecedor.preco
+                "preco": fornecedor.preco,
+                "enderecos": fornecedor.enderecos
             })
 
     def excluir_fornecedores(self):

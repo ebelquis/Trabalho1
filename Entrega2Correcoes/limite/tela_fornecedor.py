@@ -12,6 +12,7 @@ class TelaFornecedor():
         print("0 - Retornar")
 
         opcao = int(input("Escolha a opcao: "))
+        print()
         return opcao
 
     def pega_dados_fornecedor(self):
@@ -25,33 +26,41 @@ class TelaFornecedor():
         return {"nome": nome, "cnpj": cnpj, "celular": celular, "produto": produto, "preco": preco,}
 
     def mostra_fornecedor(self, dados_fornecedor):
-        print("NOME DO FORNECEDOR: ", dados_fornecedor["nome"])
-        print("CNPJ DO FORNECEDOR: ", dados_fornecedor["cnpj"])
-        print("CELULAR DO FORNECEDOR: ", dados_fornecedor["celular"])
-        print("PRODUTO DO FORNECEDOR: ", dados_fornecedor["produto"])
-        print("PRECO DO FORNECEDOR: ", dados_fornecedor["preco"])
+        print("NOME/RAZÃO SOCIAL: ", dados_fornecedor["nome"])
+        print("CNPJ: ", dados_fornecedor["cnpj"])
+        print("TELEFONE/CELULAR: ", dados_fornecedor["celular"])
+        print("PRODUTO VENDIDO: ", dados_fornecedor["produto"])
+        print("PREÇO DO PRODUTO: ", dados_fornecedor["preco"])
+        if dados_fornecedor["enderecos"]:
+            print("ENDEREÇOS DO FORNECEDOR:")
+            count = 1
+            for endereco in dados_fornecedor["enderecos"]:
+                print(f'Endereço {count}: {endereco.rua}, {endereco.numero} - CEP: {endereco.cep}')
+                count += 1
+        else:
+            print("Fornecedor sem endereço")
         print("\n")
 
     def pega_dados_endereco(self):
         print("-------- DADOS DO ENDERECO ----------")
-        cep = input("cep: ")
-        rua = input("rua: ")
-        numero = input("numero: ")
+        cep = input("CEP: ")
+        rua = input("Rua: ")
+        numero = input("Número: ")
 
-        return {"cep": cep, "rua": rua, "numero": numero}
+        return {"CEP": cep, "Rua": rua, "Número": numero}
 
     def mostra_endereco(self, dados_endereco):
         print("CEP DO FORNECEDOR: ", dados_endereco["cep"])
         print("RUA DO FORNECEDOR: ", dados_endereco["rua"])
-        print("NUMERO DA EMPRESA DO FORNECEDOR: ", dados_endereco["numero"])
+        print("NÚMERO DA EMPRESA DO FORNECEDOR: ", dados_endereco["numero"])
         print("\n")
 
     def seleciona_fornecedor(self):
-        cnpj = input("Cnpj do fornecedor que deseja selecionar: ")
+        cnpj = input("CNPJ do fornecedor que deseja selecionar: ")
         return cnpj
 
     def seleciona_endereco(self):
-        cep = input("Cep do fornecedor que deseja selecionar: ")
+        cep = input("CEP do fornecedor que deseja selecionar: ")
         return cep
 
     def mostra_mensagem(self, msg):

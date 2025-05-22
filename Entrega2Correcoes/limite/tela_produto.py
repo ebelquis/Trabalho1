@@ -10,6 +10,7 @@ class TelaProduto():
         print("0 - Retornar")
 
         opcao = int(input("Escolha a opcao: "))
+        print()
         return opcao
 
     def pega_dados_produto(self):
