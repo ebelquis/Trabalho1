@@ -1,5 +1,5 @@
 class Endereco:
-    def __init__(self, cep: int = "", rua: str = "", numero: int = ""):
+    def __init__(self, cep: str = "", rua: str = "", numero: str = ""):
         self.__cep = cep
         self.__rua = rua
         self.__numero = numero

@@ -86,11 +86,11 @@ class ControladorFornecedores:
         if fornecedor is not None:
             cep_fornecedor = self.__tela_fornecedor.seleciona_endereco()
             fornecedor.remover_endereco(cep_fornecedor)
-            self.listar_enderecos_do_fornecedor()
+            self.lista_enderecos()
         else:
             self.__tela_fornecedor.mostra_mensagem("ATENCAO: Fornecedor não encontrado.")
 
-    def listar_enderecos_do_fornecedor(self):
+    def lista_enderecos(self):
         self.lista_fornecedores()
         cnpj_fornecedor = self.__tela_fornecedor.seleciona_fornecedor()
         fornecedor = self.pega_fornecedor_por_cnpj(cnpj_fornecedor)
@@ -111,7 +111,7 @@ class ControladorFornecedores:
         lista_opcoes = {1: self.incluir_fornecedor, 2: self.alterar_fornecedor,
                         3: self.lista_fornecedores, 4: self.excluir_fornecedores,
                         5: self.adicionar_endereco, 6: self.excluir_endereco,
-                        7: self.listar_enderecos_do_fornecedor,
+                        7: self.lista_enderecos,
                         0: self.retornar}
 
         continua = True

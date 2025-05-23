@@ -18,10 +18,10 @@ class TelaFornecedor():
     def pega_dados_fornecedor(self):
         print("-------- DADOS FORNECEDORES ----------")
         nome = input("Nome: ")
-        cnpj = input("cnpj: ")
-        celular = input("celular: ")
-        produto = input("produto: ")
-        preco = input("preco: ")
+        cnpj = input("CNPJ: ")
+        celular = input("Celular: ")
+        produto = input("Produto: ")
+        preco = input("Preço: ")
 
         return {"nome": nome, "cnpj": cnpj, "celular": celular, "produto": produto, "preco": preco,}
 
@@ -47,12 +47,13 @@ class TelaFornecedor():
         rua = input("Rua: ")
         numero = input("Número: ")
 
-        return {"CEP": cep, "Rua": rua, "Número": numero}
+        return {"cep": cep, "rua": rua, "numero": numero}
 
     def mostra_endereco(self, dados_endereco):
-        print("CEP DO FORNECEDOR: ", dados_endereco["cep"])
-        print("RUA DO FORNECEDOR: ", dados_endereco["rua"])
-        print("NÚMERO DA EMPRESA DO FORNECEDOR: ", dados_endereco["numero"])
+        print('-------- ENDERECO ----------')
+        print("CEP: ", dados_endereco["cep"])
+        print("RUA: ", dados_endereco["rua"])
+        print("NÚMERO: ", dados_endereco["numero"])
         print("\n")
 
     def seleciona_fornecedor(self):

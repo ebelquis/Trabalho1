@@ -10,12 +10,15 @@ class ControladorFornecedores:
         self.__tela_fornecedor = TelaFornecedor()
         self.__controlador_sistema = controlador_sistema
 
-    def pega_fornecedor_por_cnpj(self, cnpj: int):
-        for fornecedor in self.__fornecedores:
-            if fornecedor.cnpj == cnpj:
-                return fornecedor
-        else:
+    def pega_fornecedor_por_cnpj(self, cnpj: str):
+        if not cnpj or not isinstance(cnpj, (str, int)):
             return None
+        #if len(cnpj) != 14:
+        #    return None
+        return next(
+            (f for f in self.__fornecedores if str(f.cnpj) == cnpj),
+            None
+        )
 
     def incluir_fornecedor(self):
         dados_fornecedor = self.__tela_fornecedor.pega_dados_fornecedor()
@@ -57,8 +60,11 @@ class ControladorFornecedores:
                 dados_endereco["numero"]
             )
             fornecedor.lista_enderecos()
-        else:
-            self.__tela_fornecedor.mostra_mensagem("ATENCAO: Fornecedor não encontrado.")
+#            enderecos = fornecedor.lista_enderecos()
+#            for endereco in enderecos:
+#                self.__tela_fornecedor.mostra_endereco(endereco)
+#        else:
+#            self.__tela_fornecedor.mostra_mensagem("ATENCAO: Fornecedor não encontrado.")
 
     def lista_fornecedores(self):
         for fornecedor in self.__fornecedores:
@@ -80,7 +86,7 @@ class ControladorFornecedores:
             self.__fornecedores.remove(fornecedor)
             self.lista_fornecedores()
         else:
-            self.__tela_fornecedor.mostra_mensagem("ATENCAO: Fornecedor não encontrado.")
+            self.__tela_fornecedor.mostra_mensagem("ATENÇÃO: Fornecedor não encontrado.")
 
     def excluir_endereco(self):
         self.lista_fornecedores()
@@ -115,9 +121,9 @@ class ControladorFornecedores:
         lista_opcoes = {1: self.incluir_fornecedor, 2: self.alterar_fornecedor,
                         3: self.lista_fornecedores, 4: self.excluir_fornecedores,
                         5: self.adicionar_endereco, 6: self.excluir_endereco,
-                        7: self.listar_enderecos_do_fornecedor,
                         0: self.retornar}
 
         continua = True
         while continua:
             lista_opcoes[self.__tela_fornecedor.tela_opcoes()]()
+            

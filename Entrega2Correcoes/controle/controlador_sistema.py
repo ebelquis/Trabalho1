@@ -55,6 +55,7 @@ class ControladorSistema:
         self.__controlador_pedidos.abre_tela()
 
     def encerra_sistema(self):
+        #mensagem de tchau
         exit(0)
 
     def abre_tela(self):
