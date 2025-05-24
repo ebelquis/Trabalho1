@@ -1,4 +1,5 @@
 from limite.tela_fornecedor import TelaFornecedor
+from limite.tela_produto import TelaProduto
 from entidade.fornecedor import Fornecedor
 from entidade.produto import Produto
 
@@ -19,6 +20,7 @@ class ControladorFornecedores:
         return None
 
     def incluir_fornecedor(self):
+        self.lista_fornecedores()
         dados_fornecedor = self.__tela_fornecedor.pega_dados_fornecedor()
 
         codigo_produto = int(dados_fornecedor["produto"])
@@ -35,6 +37,14 @@ class ControladorFornecedores:
             if self.pega_fornecedor_por_cnpj(dados_fornecedor["cnpj"]) is None: #daria para colocar if not...
                 self.__fornecedores.append(fornecedor)
                 self.__tela_fornecedor.mostra_mensagem("Fornecedor incluído com sucesso!")
+                self.__tela_fornecedor.mostra_fornecedor({
+                                                            "nome": fornecedor.nome,
+                                                            "cnpj": fornecedor.cnpj,
+                                                            "celular": fornecedor.celular,
+                                                            "produto": fornecedor.produto.nome,
+                                                            "preco": fornecedor.preco,
+                                                            "enderecos": fornecedor.enderecos
+                                                        })
             else:
                 self.__tela_fornecedor.mostra_mensagem("ATENÇÃO: Já existe um fornecedor com este CNPJ")
         else:
@@ -43,9 +53,7 @@ class ControladorFornecedores:
     def alterar_fornecedor(self):
         self.lista_fornecedores()
         cnpj_fornecedor = self.__tela_fornecedor.seleciona_fornecedor()
-        fornecedor = self.pega_fornecedor_por_cnpj(cnpj_fornecedor)
-
-        
+        fornecedor = self.pega_fornecedor_por_cnpj(cnpj_fornecedor)       
 
         if fornecedor:
             novos_dados_fornecedor = self.__tela_fornecedor.pega_dados_fornecedor()
@@ -59,7 +67,10 @@ class ControladorFornecedores:
                 fornecedor.produto = novo_objeto_produto
                 fornecedor.preco = float(novos_dados_fornecedor["preco"])
                 self.__tela_fornecedor.mostra_mensagem("Fornecedor alterado com sucesso.\n")
-                self.lista_fornecedores()
+                self.__tela_fornecedor.mostra_fornecedor({"nome": fornecedor.nome,
+                                                         "codigo": fornecedor.codigo_produto,
+                                                         "preco_venda": fornecedor.preco_venda,
+                                                         "quant_estoque": fornecedor.quant_estoque})
             else:
                 self.__tela_fornecedor.mostra_mensagem("ATENÇÃO: Produto não encontrado.\n")
         else:

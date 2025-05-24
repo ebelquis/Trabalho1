@@ -12,7 +12,7 @@ class ControladorProdutos():
 
     def pega_produto_por_codigo(self, codigo: int):
         for produto in self.__produtos:
-            if produto.codigo == codigo:
+            if produto.codigo_produto == codigo:
                 return produto
         return None
 
@@ -21,11 +21,11 @@ class ControladorProdutos():
         codigo = self.pega_produto_por_codigo(int(dados_produto["codigo"]))
         if codigo is None:
             produto = Produto(dados_produto["nome"], 
-                              dados_produto["codigo"],
+                              int(dados_produto["codigo"]),
                               float(dados_produto["preco_venda"]),
                               int(dados_produto["quant_estoque"]))
             self.__produtos.append(produto)
-            self._tela_produto.mostra_mensagem("Produto incluído com sucesso!")
+            self.__tela_produto.mostra_mensagem("Produto incluído com sucesso!")
         else:
             self.__tela_produto.mostra_mensagem("ATENÇÃO: Produto já existente")
 
@@ -36,18 +36,24 @@ class ControladorProdutos():
         if produto is not None:
             produto.preco_venda = float(self.__tela_produto.pega_preco())
             self.__tela_produto.mostra_mensagem("Preço do produto alterado com sucesso!")
-            self.lista_produtos()
+            self.__tela_produto.mostra_produto({"nome": produto.nome,
+                                              "codigo": produto.codigo_produto,
+                                              "preco_venda": produto.preco_venda,
+                                              "quant_estoque": produto.quant_estoque})
         else:
             self.__tela_produto.mostra_mensagem("ATENÇÃO: Produto não existente")
 
     def alterar_estoque(self):
         self.lista_produtos()
-        codigo_produto = self.__tela_produto.seleciona_produto()
+        codigo_produto = int(self.__tela_produto.seleciona_produto())
         produto = self.pega_produto_por_codigo(codigo_produto)
 
         if produto is not None:
             produto.quant_estoque = int(self.__tela_produto.pega_quantidade()) 
-            self.lista_produtos()
+            self.__tela_produto.mostra_produto({"nome": produto.nome,
+                                              "codigo": produto.codigo_produto,
+                                              "preco_venda": produto.preco_venda,
+                                              "quant_estoque": produto.quant_estoque})
 
     def lista_produtos(self):
         if not self.__produtos:

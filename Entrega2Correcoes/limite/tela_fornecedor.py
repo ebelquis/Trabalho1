@@ -1,7 +1,7 @@
 class TelaFornecedor():
     def tela_opcoes(self):
         print("-------- FORNECEDOR ----------")
-        print("Escolha a opcao")
+        print()
         print("1 - Incluir Fornecedor")
         print("2 - Alterar Fornecedor")
         print("3 - Listar Fornecedores")
@@ -9,18 +9,20 @@ class TelaFornecedor():
         print("5 - Incluir Endereco do Fornecedor")
         print("6 - Excluir Endereco do Forcedor")
         print("0 - Retornar")
-
-        opcao = int(input("Escolha a opcao: "))
+        print()
+        opcao = int(input("Escolha a opção: "))
         print()
         return opcao
 
     def pega_dados_fornecedor(self):
         print("-------- DADOS FORNECEDORES ----------")
-        nome = input("Nome: ")
+        print()
+        nome = input("Nome/Razão Social: ")
         cnpj = input("CNPJ: ")
         celular = input("Celular: ")
-        produto = input("Produto: ")
+        produto = input("Código do produto: ")
         preco = input("Preço: ")
+        print()
 
         return {"nome": nome, "cnpj": cnpj, "celular": celular, "produto": produto, "preco": preco,}
 
@@ -38,14 +40,15 @@ class TelaFornecedor():
                 count += 1
         else:
             print("Fornecedor sem endereço")
-        print("\n")
+        print()
 
     def pega_dados_endereco(self):
         print("-------- DADOS DO ENDERECO ----------")
+        print()
         cep = input("CEP: ")
         rua = input("Rua: ")
         numero = input("Número: ")
-
+        print()
         return {"cep": cep, "rua": rua, "numero": numero}
 
     def mostra_endereco(self, dados_endereco):
@@ -53,15 +56,18 @@ class TelaFornecedor():
         print("CEP: ", dados_endereco["cep"])
         print("RUA: ", dados_endereco["rua"])
         print("NÚMERO: ", dados_endereco["numero"])
-        print("\n")
+        print()
 
     def seleciona_fornecedor(self):
         cnpj = input("CNPJ do fornecedor que deseja selecionar: ")
+        print()
         return cnpj
 
     def seleciona_endereco(self):
         cep = input("CEP do endereço que deseja selecionar: ")
+        print()
         return cep
 
     def mostra_mensagem(self, msg):
         print(msg)
+        print()

@@ -5,7 +5,7 @@ class TelaProduto():
         print("1 - Incluir produto")
         print("2 - Alterar preço de venda do produto")
         print("3 - Alterar quantidade de estoque do produto")
-        print("4 - Listar produto")
+        print("4 - Listar produto(s)")
         print("5 - Excluir produto")
         print("0 - Retornar")
 
@@ -15,9 +15,10 @@ class TelaProduto():
 
     def pega_dados_produto(self):
         print("-------- DADOS PRODUTO --------")
+        print()
         nome = input("Nome: ")
         codigo = input("Codigo: ")
-        preco_venda = input("Preco de Venda: ")
+        preco_venda = input("Preco de Venda (R$): ")
         quant_estoque = input("Quantidade comprada: ")
         print()
         
@@ -25,12 +26,14 @@ class TelaProduto():
     
     def pega_quantidade(self):
         print("----- ALTERAR QUANTIDADE NO ESTOQUE ------")
+        print()
         quantidade_nova = input("Digite a quantidade atual: ")
         print()
         return quantidade_nova
     
     def pega_preco(self):
         print("-------- ALTERAR PREÇO DE VENDA DO PRODUTO --------")
+        print()
         preco_novo = input("Digite o novo preço de venda do produto: ")
         print()
         return preco_novo
@@ -38,7 +41,7 @@ class TelaProduto():
     def mostra_produto(self, dados_produto):
         print("NOME:", dados_produto["nome"])
         print("CÓDIGO:", dados_produto["codigo"])
-        print("PREÇO:", dados_produto["preco_venda"])
+        print(f"PREÇO: R${dados_produto["preco_venda"]:.2f}")
         print("QUANTIDADE NO ESTOQUE:", dados_produto["quant_estoque"])
         print()
 
@@ -49,3 +52,4 @@ class TelaProduto():
 
     def mostra_mensagem(self, msg):
         print(msg)
+        print()
