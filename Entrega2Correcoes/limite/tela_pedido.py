@@ -1,3 +1,6 @@
+from datetime import datetime
+
+
 class TelaPedido():
     def tela_opcoes(self):
         print("-------- PEDIDOS ----------")
@@ -11,15 +14,16 @@ class TelaPedido():
         print()
         return opcao
 
-    def pega_dados_(self):
+    def pega_dados_pedido(self):
         print("-------- DADOS PEDIDOS ----------")
         cnpj = input("CNPJ do fornecedor: ")
         codigo = input("Codigo do pedido: ")
         codigo_produto = input("Codigo do Produto: ")
         quantidade = input("Quantidade do pedido: ")
-        data = input("Data do pedido feito: ")
+        data = input("Data do pedido feito (DD/MM/AAAA): ")
+        data = datetime.strptime(data, "%d/%m/%Y") #fazer tratamento de erro aqui AAAAA
         valor_frete = input("Valor do frete do pedido: ")
-        prazo_entrega = input("Prazo do pedido: ")
+        prazo_entrega = input("Prazo do pedido (dias): ")
 
         return {"cnpj": cnpj, "codigo": codigo,
                 "codigo_produto": codigo_produto,

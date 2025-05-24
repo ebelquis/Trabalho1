@@ -8,7 +8,6 @@ class TelaFornecedor():
         print("4 - Excluir Fornecedor")
         print("5 - Incluir Endereco do Fornecedor")
         print("6 - Excluir Endereco do Forcedor")
-        print("7 - Listar Enderecos do Forcedor")
         print("0 - Retornar")
 
         opcao = int(input("Escolha a opcao: "))
@@ -61,7 +60,7 @@ class TelaFornecedor():
         return cnpj
 
     def seleciona_endereco(self):
-        cep = input("CEP do fornecedor que deseja selecionar: ")
+        cep = input("CEP do endereço que deseja selecionar: ")
         return cep
 
     def mostra_mensagem(self, msg):

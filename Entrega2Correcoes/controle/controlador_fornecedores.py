@@ -9,27 +9,36 @@ class ControladorFornecedores:
                                Fornecedor("Somar", 2222, 549, Produto('camisa m', 21, 40.00, 6), 25.00)]
         self.__tela_fornecedor = TelaFornecedor()
         self.__controlador_sistema = controlador_sistema
+        self.__fornecedores[0].incluir_endereco("88037200", "Av. Gov. José Boabaid", "30")
+        self.__fornecedores[1].incluir_endereco("95070380", "Rua Amâncio Miguel Ferreira", "229")
 
     def pega_fornecedor_por_cnpj(self, cnpj: str):
-        if not cnpj or not isinstance(cnpj, (str, int)):
-            return None
-        #if len(cnpj) != 14:
-        #    return None
-        return next(
-            (f for f in self.__fornecedores if str(f.cnpj) == cnpj),
-            None
-        )
+        for fornecedor in self.__fornecedores:
+            if fornecedor.cnpj == cnpj:
+                return fornecedor
+        return None
 
     def incluir_fornecedor(self):
         dados_fornecedor = self.__tela_fornecedor.pega_dados_fornecedor()
-        fornecedor = Fornecedor(
-            dados_fornecedor["nome"],
-            int(dados_fornecedor["cnpj"]),
-            dados_fornecedor["celular"],
-            dados_fornecedor["produto"],
-            float(dados_fornecedor["preco"])
-            )
-        self.__fornecedores.append(fornecedor)
+
+        codigo_produto_str = dados_fornecedor["produto"]
+        objeto_produto = self.__controlador_sistema.controlador_produtos.pega_produto_por_codigo(int(codigo_produto_str))
+
+        if objeto_produto:
+            fornecedor = Fornecedor(
+                dados_fornecedor["nome"],
+                dados_fornecedor["cnpj"],
+                dados_fornecedor["celular"],
+                objeto_produto,
+                float(dados_fornecedor["preco"])
+                )
+            if self.pega_fornecedor_por_cnpj(dados_fornecedor["cnpj"]) is None: #daria para colocar if not...
+                self.__fornecedores.append(fornecedor)
+                self.__tela_fornecedor.mostra_mensagem("Fornecedor incluído com sucesso!")
+            else:
+                self.__tela_fornecedor.mostra_mensagem("ATENÇÃO: Já existe um fornecedor com este CNPJ")
+        else:
+            self.__tela_fornecedor.mostra_mensagem("ATENÇÃO: Produto não encontrado.\nNão foi possível incluir o fornecedor.")
 
     def alterar_fornecedor(self):
         self.lista_fornecedores()
@@ -39,7 +48,7 @@ class ControladorFornecedores:
         if fornecedor:
             novos_dados_fornecedor = self.__tela_fornecedor.pega_dados_fornecedor()
             fornecedor.nome = novos_dados_fornecedor["nome"]
-            fornecedor.cnpj = int(novos_dados_fornecedor["cnpj"])
+            fornecedor.cnpj = novos_dados_fornecedor["cnpj"]
             fornecedor.celular = novos_dados_fornecedor["celular"]
             fornecedor.produto = novos_dados_fornecedor["produto"]
             fornecedor.preco = float(novos_dados_fornecedor["preco"])

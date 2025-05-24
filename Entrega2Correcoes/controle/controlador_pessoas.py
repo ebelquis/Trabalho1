@@ -12,10 +12,10 @@ class ControladorPessoas():
         self.__controlador_sistema = controlador_sistema
 
     def pega_cliente_por_cpf(self, cpf: str):
-            for cliente in self.__clientes:
-                if cliente.cpf == cpf:
-                    return cliente
-            return None
+        for cliente in self.__clientes:
+            if cliente.cpf == cpf:
+                return cliente
+        return None
 
     def pega_vendedor_por_cpf(self, cpf: str):
         for vendedor in self.__vendedores:
@@ -24,14 +24,14 @@ class ControladorPessoas():
         return None
 
     def incluir_cliente(self):
-        dados_pessoa = self.__tela_pessoa.pega_dados_pessoa()
+        dados_pessoa = self.__tela_pessoa.pega_dados_pedidopessoa()
         pessoa = Cliente(dados_pessoa["nome"],
                          dados_pessoa["cpf"],
                          dados_pessoa["celular"])
         self.__clientes.append(pessoa)
 
     def incluir_vendedor(self):
-        dados_pessoa = self.__tela_pessoa.pega_dados_pessoa()
+        dados_pessoa = self.__tela_pessoa.pega_dados_pedidopessoa()
         pessoa = Vendedor(dados_pessoa["nome"],
                           dados_pessoa["cpf"],
                           dados_pessoa["celular"], 
@@ -44,7 +44,7 @@ class ControladorPessoas():
         pessoa = self.pega_pessoa_por_cpf(cpf)
 
         if pessoa:
-            novos_dados = self.__tela_pessoa.pega_dados_pessoa()
+            novos_dados = self.__tela_pessoa.pega_dados_pedidopessoa()
             pessoa.nome = novos_dados["nome"]
             pessoa.cpf = novos_dados["cpf"]
             pessoa.celular = novos_dados["celular"]

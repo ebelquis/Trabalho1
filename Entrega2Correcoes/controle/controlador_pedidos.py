@@ -17,7 +17,7 @@ class ControladorPedidos():
     def incluir_pedido(self):
         self.__controlador_sistema.controlador_fornecedores.lista_fornecedores()
         self.__controlador_sistema.controlador_produtos.lista_produtos()
-        dados_pedido = self.__tela_pedido.pega_dados_()
+        dados_pedido = self.__tela_pedido.pega_dados_pedido()
 
         fornecedor = self.__controlador_sistema.controlador_fornecedores.pega_fornecedor_por_cnpj(dados_pedido["cnpj"])
         produto = self.__controlador_sistema.controlador_produtos.pega_produto_por_codigo(dados_pedido["codigo_produto"])

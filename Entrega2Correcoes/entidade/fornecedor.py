@@ -1,8 +1,9 @@
 from entidade.produto import Produto
 from entidade.endereco import Endereco
 
+
 class Fornecedor:
-    def __init__(self, nome: str, cnpj: int, celular: str, produto: Produto, preco: float):
+    def __init__(self, nome: str, cnpj: str, celular: str, produto: Produto, preco: float):
         self.__nome = nome
         self.__cnpj = cnpj
         self.__celular = celular
@@ -11,11 +12,11 @@ class Fornecedor:
         self.__enderecos = []
 
     @property
-    def cnpj(self) -> int:
+    def cnpj(self) -> str:
         return self.__cnpj
     
     @cnpj.setter
-    def cnpj(self, cnpj: int):
+    def cnpj(self, cnpj: str):
         self.__cnpj = cnpj
     
     @property
@@ -56,7 +57,7 @@ class Fornecedor:
 
     def incluir_endereco(self, cep: str, rua: str, numero:str):
         self.__enderecos.append(Endereco(cep, rua, numero))
-    
+    #arrumar aqui
     def lista_enderecos(self):
         for endereco in self.__enderecos:
             return[{"cep": endereco.cep,
