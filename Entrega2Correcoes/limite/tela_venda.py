@@ -19,7 +19,11 @@ class TelaVenda():
         cliente = input("Cpf do cliente: ")
         quantidade = input("Quantidade vendida: ")
         data = input("Data da venda(DD/MM/AAAA): ")
+<<<<<<< HEAD
         data = datetime.strptime(data, "%d/%m/%Y") 
+=======
+        data = datetime.strptime(data, "%d/%m/%Y") #fazer tratamento de erro aqui AAAAA
+>>>>>>> bb35d15247fd653159199aa5c0d51242b2e10cbe
         codigo_produto = input("Codigo do produto: ")
         codigo = input("Codigo da venda: ")
 

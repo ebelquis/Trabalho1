@@ -12,15 +12,22 @@ class TelaSistema:
                 print("Você não digitou um valor aceitavel, digite novamente")
 
     def tela_opcoes(self):
-        print("-------- SISTEMA DE ESTOQUE DA A5 ---------")
-        print("Escolha sua opcao")
-        print("1 - Venda feita pelo Vendedor")
+        print()
+        print("======== SISTEMA DE ESTOQUE DA A5 ========")
+        print()
+        print("1 - Realizar venda")
         print("2 - Fornecedor")
         print("3 - Produto")
         print("4 - Pessoa")
-        print("5 - Pedido feito para o fornecedor")
+        print("5 - Realizar pedido")
         print("0 - Finalizar sistema")
+<<<<<<< HEAD
         
         opcao = self.teste_numero_opcoes("Escolha a opcao: ", [0, 1, 2, 3, 4, 5])
         print("\n")
+=======
+        print()
+        opcao = int(input("Escolha a opção: "))
+        print()
+>>>>>>> bb35d15247fd653159199aa5c0d51242b2e10cbe
         return opcao

@@ -50,10 +50,15 @@ class TelaFornecedor(TesteNumeroOpcoes):
 
     def tela_opcoes(self):
         print("-------- FORNECEDOR ----------")
+<<<<<<< HEAD
+=======
+        print()
+>>>>>>> bb35d15247fd653159199aa5c0d51242b2e10cbe
         print("1 - Incluir Fornecedor")
         print("2 - Alterar Fornecedor")
         print("3 - Listar Fornecedores")
         print("4 - Excluir Fornecedor")
+<<<<<<< HEAD
         print("5 - Incluir Endereço")
         print("6 - Excluir Endereço")
         print("0 - Retornar")
@@ -76,6 +81,27 @@ class TelaFornecedor(TesteNumeroOpcoes):
             "produto": produto,
             "preco": preco
         }
+=======
+        print("5 - Incluir Endereco do Fornecedor")
+        print("6 - Excluir Endereco do Forcedor")
+        print("0 - Retornar")
+        print()
+        opcao = int(input("Escolha a opção: "))
+        print()
+        return opcao
+
+    def pega_dados_fornecedor(self):
+        print("-------- DADOS FORNECEDORES ----------")
+        print()
+        nome = input("Nome/Razão Social: ")
+        cnpj = input("CNPJ: ")
+        celular = input("Celular: ")
+        produto = input("Código do produto: ")
+        preco = input("Preço: ")
+        print()
+
+        return {"nome": nome, "cnpj": cnpj, "celular": celular, "produto": produto, "preco": preco,}
+>>>>>>> bb35d15247fd653159199aa5c0d51242b2e10cbe
 
     def mostra_fornecedor(self, dados_fornecedor):
         print("-------- DADOS DO FORNECEDOR ----------")
@@ -90,6 +116,7 @@ class TelaFornecedor(TesteNumeroOpcoes):
             for endereco in dados_fornecedor['enderecos']:
                 print("- Rua: {}, Numero: {}, CEP:{}".format(endereco['rua'], endereco['numero'], endereco['cep']))
         else:
+<<<<<<< HEAD
             print("\nFornecedor sem endereços cadastrados.")
         print("\n")
 
@@ -111,3 +138,37 @@ class TelaFornecedor(TesteNumeroOpcoes):
 
     def mostra_mensagem(self, msg):
         print(msg)
+=======
+            print("Fornecedor sem endereço")
+        print()
+
+    def pega_dados_endereco(self):
+        print("-------- DADOS DO ENDERECO ----------")
+        print()
+        cep = input("CEP: ")
+        rua = input("Rua: ")
+        numero = input("Número: ")
+        print()
+        return {"cep": cep, "rua": rua, "numero": numero}
+
+    def mostra_endereco(self, dados_endereco):
+        print('-------- ENDERECO ----------')
+        print("CEP: ", dados_endereco["cep"])
+        print("RUA: ", dados_endereco["rua"])
+        print("NÚMERO: ", dados_endereco["numero"])
+        print()
+
+    def seleciona_fornecedor(self):
+        cnpj = input("CNPJ do fornecedor que deseja selecionar: ")
+        print()
+        return cnpj
+
+    def seleciona_endereco(self):
+        cep = input("CEP do endereço que deseja selecionar: ")
+        print()
+        return cep
+
+    def mostra_mensagem(self, msg):
+        print(msg)
+        print()
+>>>>>>> bb35d15247fd653159199aa5c0d51242b2e10cbe

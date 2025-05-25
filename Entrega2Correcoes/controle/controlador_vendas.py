@@ -16,6 +16,7 @@ class ControladorVendas():
     return None
 
   def incluir_venda(self):
+<<<<<<< HEAD
       self.__controlador_sistema.controlador_pessoas.lista_cliente()
       self.__controlador_sistema.controlador_pessoas.lista_vendedores()
       dados_venda = self.__tela_venda.pega_dados_venda()
@@ -55,6 +56,40 @@ class ControladorVendas():
           self.__tela_venda.mostra_mensagem("Erro: Dados inválidos (certifique-se de que números estão corretos).")
       except Exception as e:
           self.__tela_venda.mostra_mensagem(e)
+=======
+    self.__controlador_sistema.controlador_pessoas.lista_cliente()
+    self.__controlador_sistema.controlador_pessoas.lista_vendedores()
+    dados_venda = self.__tela_venda.pega_dados_venda()
+
+    quantidade = int(dados_venda["quantidade"])
+    data = dados_venda["data"]
+    codigo_produto = int(dados_venda["codigo_produto"])
+    codigo_venda = int(dados_venda["codigo"])
+
+    cliente = self.__controlador_sistema.controlador_pessoas.pega_cliente_por_cpf(dados_venda["cpf_cliente"])
+    vendedor = self.__controlador_sistema.controlador_pessoas.pega_vendedor_por_cpf(dados_venda["cpf_vendedor"])
+    produto = self.__controlador_sistema.controlador_produtos.pega_produto_por_codigo(dados_venda["codigo_produto"])
+
+    if (cliente is not None and vendedor is not None and produto is not None):
+      venda_existe = self.pega_venda_por_codigo(dados_venda["codigo_produto"])
+      if venda_existe is None:
+        if produto.quant_estoque >= quantidade:
+          valor_total = produto.preco_venda * quantidade
+          venda = Venda(quantidade, produto,
+                        data, valor_total, codigo_produto,
+                        cliente, vendedor)
+                
+          vendedor.valor_vendido_total += valor_total
+          self.__vendas.append(venda)
+          produto.quant_estoque -= quantidade
+          self.__tela_venda.mostra_mensagem("Venda realizada com sucesso!")
+        else:
+          self.__tela_venda.mostra_mensagem("ATENÇÃO: Estoque insuficiente para a venda.")
+      else:
+        self.__tela_venda.mostra_mensagem("ATENÇÃO: Já existe uma venda com este código.")
+    else:
+      self.__tela_venda.mostra_mensagem("Cliente, Vendedor ou Produto não encontrado.")
+>>>>>>> bb35d15247fd653159199aa5c0d51242b2e10cbe
 
   def lista_venda(self):
     for venda in self.__vendas:
@@ -90,8 +125,16 @@ class ControladorVendas():
                     0: self.retornar}
 
     while True:
+<<<<<<< HEAD
         opcao_escolhida = self.__tela_venda.tela_opcoes()
         if opcao_escolhida in lista_opcoes:
             lista_opcoes[opcao_escolhida]()
         else:
             self.__tela_venda.mostra_mensagem("Opção inválida, digite novamente.")
+=======
+        opcao_escolhida = self.__tela_pessoa.tela_opcoes()
+        if opcao_escolhida in lista_opcoes:
+            lista_opcoes[opcao_escolhida]()
+        else:
+            self.__tela_pedido.mostra_mensagem("Opção inválida, digite novamente.")
+>>>>>>> bb35d15247fd653159199aa5c0d51242b2e10cbe
