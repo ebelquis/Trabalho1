@@ -1,69 +1,89 @@
 from limite.tela_produto import TelaProduto
 from entidade.produto import Produto
+from excessoes.EncontradoNaListaException import EncontradoNaListaException
+from excessoes.NaoEncontradoNaListaException import NaoEncontradoNaListaException
 
-caneca = Produto("caneca", 1, 20.00, 10)
-camisa = Produto('camisa m', 21, 40.00, 6)
 
 class ControladorProdutos():
     def __init__(self, controlador_sistema):
-        self.__produtos = [caneca, camisa]
+        self.__produtos = []
         self.__controlador_sistema = controlador_sistema
         self.__tela_produto = TelaProduto()
 
-    def pega_produto_por_codigo(self, codigo: str):
-        for produto in self.__produtos:
-            if produto.codigo == codigo:
-                return produto
+    def pega_produto_por_codigo(self, codigo: int):
+        for i in self.__produtos:
+            if i.codigo_produto == codigo:
+                return i
         return None
 
     def incluir_produto(self):
         dados_produto = self.__tela_produto.pega_dados_produto()
-        codigo = self.pega_produto_por_codigo(dados_produto["codigo"])
-        if codigo is None:
-            produto = Produto(dados_produto["nome"], 
-                              dados_produto["codigo"],
-                              dados_produto["preco_venda"],
-                              dados_produto["quant_estoque"])
-            self.__produtos.append(produto)
-        else:
-            self.__tela_produto.mostra_mensagem("ATENCAO: Produto já existente")
+        i = self.pega_produto_por_codigo(dados_produto["codigo_produto"])
+        try:
+            if i is None:
+                produto = Produto(dados_produto["nome"], 
+                                int(dados_produto["codigo_produto"]),
+                                float(dados_produto["preco_venda"]),
+                                int(dados_produto["quant_estoque"]))
+                self.__produtos.append(produto)
+                self.__tela_produto.mostra_mensagem("Produto incluído com sucesso!")
+            else:
+                raise EncontradoNaListaException()
+        except Exception as e:
+            self.__tela_produto.mostra_mensagem(e)
 
     def alterar_preco_produto(self):
         self.lista_produtos()
         codigo_produto = self.__tela_produto.seleciona_produto()
         produto = self.pega_produto_por_codigo(codigo_produto)
-        if produto is not None:
-            novos_dados_produto = self.__tela_produto.pega_dados_produto_alterar()
-            produto.preco_venda += int(novos_dados_produto["valor"])
-            self.lista_produtos()
-        else:
-            self.__tela_produto.mostra_mensagem("ATENCAO: Produto não existente")
+        try:
+            if produto is not None:
+                valor = self.__tela_produto.pega_dados_produto_alterar()
+                produto.preco_venda += float(valor)
+            else:
+                raise NaoEncontradoNaListaException("produto")
+        except Exception as e:
+            self.__tela_produto.mostra_mensagem(e)
 
     def alterar_estoque(self):
         self.lista_produtos()
         codigo_produto = self.__tela_produto.seleciona_produto()
         produto = self.pega_produto_por_codigo(codigo_produto)
-        if produto is not None:
-            novos_dados_produto = self.__tela_produto.pega_dados_produto_alterar()
-            produto.quant_estoque += int(novos_dados_produto["valor"]) 
-            self.lista_produtos()
+        try:
+            if produto is not None:
+                valor = self.__tela_produto.pega_dados_produto_alterar()
+                if valor == int(valor):
+                    produto.quant_estoque += int(valor) 
+                else:
+                    self.__tela_produto.mostra_mensagem("Coloque o valor um valor inteiro!")
+            else:
+                raise NaoEncontradoNaListaException()
+        except Exception as e:
+            self.__tela_produto.mostra_mensagem(e)
 
     def lista_produtos(self):
-        for produto in self.__produtos:
-            self.__tela_produto.mostra_produto({"nome": produto.nome,
-                                              "codigo": produto.codigo,
-                                              "preco_venda": produto.preco_venda,
-                                              "quant_estoque": produto.quant_estoque})
+        if len(self.__produtos) == 0:
+            self.__tela_produto.mostra_mensagem("Não há produtos cadastrados.")
+            return None
+        else:
+            for produto in self.__produtos:
+                self.__tela_produto.mostra_produto({"nome": produto.nome,
+                                                "codigo_produto": produto.codigo_produto,
+                                                "preco_venda": produto.preco_venda,
+                                                "quant_estoque": produto.quant_estoque})
 
     def excluir_produto(self):
         self.lista_produtos()
-        codigo_produto = self.__tela_produto.seleciona_produto()
+        codigo_produto = int(self.__tela_produto.seleciona_produto())
         produto = self.pega_produto_por_codigo(codigo_produto)
-        if produto is not None:
-            self.__produtos.remove(produto)
-            self.lista_produtos()
-        else:
-            self.__tela_produto.mostra_mensagem("ATENCAO: Produto não existente")
+        try:
+            if produto is not None:
+                self.__produtos.remove(produto)
+                self.__tela_produto.mostra_mensagem("Produto excluído com sucesso!")
+            else:
+                raise NaoEncontradoNaListaException("produto")
+        except Exception as e:
+            self.__tela_produto.mostra_mensagem(e)
 
     def retornar(self):
         self.__controlador_sistema.abre_tela()
@@ -76,8 +96,9 @@ class ControladorProdutos():
                         5: self.excluir_produto,
                         0: self.retornar}
 
-        continua = True
-        while continua:
-            opcao = self.__tela_produto.tela_opcoes()
-            if opcao in lista_opcoes:
-                lista_opcoes[opcao]()
+        while True:
+            opcao_escolhida = self.__tela_produto.tela_opcoes()
+            if opcao_escolhida in lista_opcoes:
+                lista_opcoes[opcao_escolhida]()
+            else:
+                self.__tela_produto.mostra_mensagem("Opção inválida, digite novamente.")

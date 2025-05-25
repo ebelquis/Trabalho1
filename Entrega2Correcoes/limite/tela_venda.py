@@ -1,3 +1,5 @@
+from datetime import datetime
+
 class TelaVenda():
     def tela_opcoes(self):
         print("-------- VENDAS ----------")
@@ -16,15 +18,14 @@ class TelaVenda():
         vendedor = input("Cpf do vendedor: ")
         cliente = input("Cpf do cliente: ")
         quantidade = input("Quantidade vendida: ")
-        valor = input("Valor da venda: ")
-        data = input("Data da venda: ")
+        data = input("Data da venda(DD/MM/AAAA): ")
+        data = datetime.strptime(data, "%d/%m/%Y") 
         codigo_produto = input("Codigo do produto: ")
         codigo = input("Codigo da venda: ")
 
         return {"vendedor": vendedor, 
                 "cliente":cliente,
                 "quantidade": quantidade,
-                "valor": valor,
                 "data": data,
                 "codigo_produto": codigo_produto,
                 "codigo": codigo}

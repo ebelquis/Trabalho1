@@ -1,129 +1,167 @@
 from limite.tela_fornecedor import TelaFornecedor
 from entidade.fornecedor import Fornecedor
-from entidade.produto import Produto
-
+from excessoes.EncontradoNaListaException import EncontradoNaListaException
+from excessoes.NaoEncontradoNaListaException import NaoEncontradoNaListaException
 class ControladorFornecedores:
     
     def __init__(self, controlador_sistema):
-        self.__fornecedores = [Fornecedor("Gumege Alumínios", 1111, 4899, Produto("caneca", 1, 20.00, 10), 10.00), 
-                               Fornecedor("Somar", 2222, 549, Produto('camisa m', 21, 40.00, 6), 25.00)]
+        self.__fornecedores = []
         self.__tela_fornecedor = TelaFornecedor()
         self.__controlador_sistema = controlador_sistema
 
     def pega_fornecedor_por_cnpj(self, cnpj: str):
-        if not cnpj or not isinstance(cnpj, (str, int)):
-            return None
-        #if len(cnpj) != 14:
-        #    return None
-        return next(
-            (f for f in self.__fornecedores if str(f.cnpj) == cnpj),
-            None
-        )
+        for fornecedor in self.__fornecedores:
+            if int(fornecedor.cnpj) == int(cnpj):
+                return fornecedor
+        return None
 
     def incluir_fornecedor(self):
         dados_fornecedor = self.__tela_fornecedor.pega_dados_fornecedor()
-        fornecedor = Fornecedor(
-            dados_fornecedor["nome"],
-            int(dados_fornecedor["cnpj"]),
-            dados_fornecedor["celular"],
-            dados_fornecedor["produto"],
-            float(dados_fornecedor["preco"])
-            )
-        self.__fornecedores.append(fornecedor)
+        try:
+            codigo_produto = int(dados_fornecedor["produto"])  
+            objeto_produto = self.__controlador_sistema.controlador_produtos.pega_produto_por_codigo(codigo_produto)
+            if objeto_produto is not None:
+                if self.pega_fornecedor_por_cnpj(dados_fornecedor["cnpj"]) is None:
+                    fornecedor = Fornecedor(
+                        str(dados_fornecedor["nome"]),
+                        int(dados_fornecedor["cnpj"]),
+                        int(dados_fornecedor["celular"]),
+                        objeto_produto,
+                        float(dados_fornecedor["preco"]) 
+                    )
+                    self.__fornecedores.append(fornecedor)
+                    self.__tela_fornecedor.mostra_mensagem("Fornecedor incluído com sucesso!")
+                else:
+                    raise EncontradoNaListaException()
+            else:
+                raise NaoEncontradoNaListaException("produto")
+        except Exception as e:
+            self.__tela_fornecedor.mostra_mensagem(e)
 
     def alterar_fornecedor(self):
-        self.lista_fornecedores()
+        self.lista_fornecedores
         cnpj_fornecedor = self.__tela_fornecedor.seleciona_fornecedor()
-        fornecedor = self.pega_fornecedor_por_cnpj(cnpj_fornecedor)
-
-        if fornecedor:
-            novos_dados_fornecedor = self.__tela_fornecedor.pega_dados_fornecedor()
-            fornecedor.nome = novos_dados_fornecedor["nome"]
-            fornecedor.cnpj = int(novos_dados_fornecedor["cnpj"])
-            fornecedor.celular = novos_dados_fornecedor["celular"]
-            fornecedor.produto = novos_dados_fornecedor["produto"]
-            fornecedor.preco = float(novos_dados_fornecedor["preco"])
-            self.lista_fornecedores()
-        else:
-            self.__tela_fornecedor.mostra_mensagem("ATENCAO: Fornecedor não encontrado.")
+        fornecedor = self.pega_fornecedor_por_cnpj(cnpj_fornecedor)       
+        try:
+            if fornecedor is not None:
+                novos_dados_fornecedor = self.__tela_fornecedor.pega_dados_fornecedor()
+                fornecedor_copiado = self.pega_fornecedor_por_cnpj(novos_dados_fornecedor["cnpj"])       
+                novo_codigo_produto = int(novos_dados_fornecedor["produto"])
+                novo_produto = self.__controlador_sistema.controlador_produtos.pega_produto_por_codigo(novo_codigo_produto)
+                if fornecedor_copiado is None or (fornecedor_copiado == cnpj_fornecedor):
+                    if novo_produto is not None:
+                        fornecedor.nome = novos_dados_fornecedor["nome"]
+                        fornecedor.cnpj = novos_dados_fornecedor["cnpj"]
+                        fornecedor.celular = novos_dados_fornecedor["celular"]
+                        fornecedor.produto = novo_produto
+                        fornecedor.preco = float(novos_dados_fornecedor["preco"])
+                        self.__tela_fornecedor.mostra_mensagem("Fornecedor alterado com sucesso.")
+                    else:
+                        raise NaoEncontradoNaListaException("produto")
+                else:
+                    raise EncontradoNaListaException()
+            else:
+                raise NaoEncontradoNaListaException("fornecedor")
+        except Exception as e:
+            self.__tela_fornecedor.mostra_mensagem(e)
 
     def adicionar_endereco(self):
         self.lista_fornecedores()
         cnpj_fornecedor = self.__tela_fornecedor.seleciona_fornecedor()
         fornecedor = self.pega_fornecedor_por_cnpj(cnpj_fornecedor)
-
-        if fornecedor:
+        try:
+            if fornecedor is None:
+                raise NaoEncontradoNaListaException("fornecedor")
             dados_endereco = self.__tela_fornecedor.pega_dados_endereco()
+            cep_novo = dados_endereco["cep"]
+            cep_existente = False
+            for endereco in fornecedor.enderecos:
+                if int(endereco.cep) == int(cep_novo): 
+                    cep_existente = True
+                    break  
+            if cep_existente:
+                raise EncontradoNaListaException()
             fornecedor.incluir_endereco(
-                dados_endereco["cep"],
-                dados_endereco["rua"],
-                dados_endereco["numero"]
+                int(dados_endereco["cep"]),
+                str(dados_endereco["rua"]),
+                int(dados_endereco["numero"])
             )
-            fornecedor.lista_enderecos()
-#            enderecos = fornecedor.lista_enderecos()
-#            for endereco in enderecos:
-#                self.__tela_fornecedor.mostra_endereco(endereco)
-#        else:
-#            self.__tela_fornecedor.mostra_mensagem("ATENCAO: Fornecedor não encontrado.")
+            self.__tela_fornecedor.mostra_mensagem("Endereço adicionado com sucesso!")
+            
+        except Exception as e:
+            self.__tela_fornecedor.mostra_mensagem(e)
 
     def lista_fornecedores(self):
-        for fornecedor in self.__fornecedores:
-            self.__tela_fornecedor.mostra_fornecedor({
-                "nome": fornecedor.nome,
-                "cnpj": fornecedor.cnpj,
-                "celular": fornecedor.celular,
-                "produto": fornecedor.produto,
-                "preco": fornecedor.preco,
-                "enderecos": fornecedor.enderecos
-            })
+        if not self.__fornecedores:
+            self.__tela_fornecedor.mostra_mensagem("Não há fornecedores cadastrados.")
+        else:
+            for fornecedor in self.__fornecedores:
+                enderecos = []
+                for endereco in fornecedor.enderecos:
+                    enderecos.append({"cep": endereco.cep,
+                                      "rua": endereco.rua,
+                                      "numero": endereco.numero})
 
-    def excluir_fornecedores(self):
+                dados = {"nome": fornecedor.nome,
+                         "cnpj": fornecedor.cnpj,
+                         "celular": fornecedor.celular,
+                         "produto": fornecedor.produto.nome,
+                         "preco": fornecedor.preco,
+                         "enderecos": enderecos}
+                self.__tela_fornecedor.mostra_fornecedor(dados)
+
+    def excluir_fornecedor(self):
         self.lista_fornecedores()
         cnpj_fornecedor = self.__tela_fornecedor.seleciona_fornecedor()
         fornecedor = self.pega_fornecedor_por_cnpj(cnpj_fornecedor)
-
-        if fornecedor is not None:
-            self.__fornecedores.remove(fornecedor)
-            self.lista_fornecedores()
-        else:
-            self.__tela_fornecedor.mostra_mensagem("ATENÇÃO: Fornecedor não encontrado.")
+        try:
+            if fornecedor is not None:
+                self.__fornecedores.remove(fornecedor)
+                self.__tela_fornecedor.mostra_mensagem("Fornecedor excluído com sucesso!")
+            else:
+                raise NaoEncontradoNaListaException()
+        except Exception as e:
+            self.__tela_fornecedor.mostra_mensagem(e)
 
     def excluir_endereco(self):
         self.lista_fornecedores()
         cnpj_fornecedor = self.__tela_fornecedor.seleciona_fornecedor()
         fornecedor = self.pega_fornecedor_por_cnpj(cnpj_fornecedor)
-        
-        if fornecedor is not None:
-            cep_fornecedor = self.__tela_fornecedor.seleciona_endereco()
-            fornecedor.remover_endereco(cep_fornecedor)
-            self.listar_enderecos_do_fornecedor()
-        else:
-            self.__tela_fornecedor.mostra_mensagem("ATENCAO: Fornecedor não encontrado.")
-
-    def listar_enderecos_do_fornecedor(self):
-        self.lista_fornecedores()
-        cnpj_fornecedor = self.__tela_fornecedor.seleciona_fornecedor()
-        fornecedor = self.pega_fornecedor_por_cnpj(cnpj_fornecedor)
-        if fornecedor:
-            for endereco in fornecedor.lista_enderecos:
-                self.__tela_fornecedor.mostra_endereco({
-                    "cep": endereco.cep,
-                    "rua": endereco.rua,
-                    "numero": endereco.numero
-                })
-        else:
-            self.__tela_fornecedor.mostra_mensagem("ATENCAO: Fornecedor não encontrado.")
-
+        try:
+            if fornecedor is None:
+                raise NaoEncontradoNaListaException("fornecedor") 
+            cep_endereco = self.__tela_fornecedor.seleciona_endereco()
+            endereco_remover = None
+            for endereco in fornecedor.enderecos:
+                if str(endereco.cep).strip() == str(cep_endereco).strip():
+                    endereco_remover = endereco
+                    break
+            if endereco_remover:
+                fornecedor.enderecos.remove(endereco_remover)
+                self.__tela_fornecedor.mostra_mensagem("Endereço excluído com sucesso!")
+                self.lista_fornecedores()
+            else:
+                raise NaoEncontradoNaListaException("endereço")
+        except Exception as e:
+            self.__tela_fornecedor.mostra_mensagem(e)
+            
     def retornar(self):
         self.__controlador_sistema.abre_tela()
 
     def abre_tela(self):
-        lista_opcoes = {1: self.incluir_fornecedor, 2: self.alterar_fornecedor,
-                        3: self.lista_fornecedores, 4: self.excluir_fornecedores,
-                        5: self.adicionar_endereco, 6: self.excluir_endereco,
-                        0: self.retornar}
+        lista_opcoes = {
+            1: self.incluir_fornecedor,
+            2: self.alterar_fornecedor,
+            3: self.lista_fornecedores,
+            4: self.excluir_fornecedor,
+            5: self.adicionar_endereco,
+            6: self.excluir_endereco,
+            0: self.retornar
+        }
 
-        continua = True
-        while continua:
-            lista_opcoes[self.__tela_fornecedor.tela_opcoes()]()
-            
+        while True:
+            opcao_escolhida = self.__tela_fornecedor.tela_opcoes()
+            if opcao_escolhida in lista_opcoes:
+                lista_opcoes[opcao_escolhida]()
+            else:
+                self.__tela_fornecedor.mostra_mensagem("Opção inválida, digite novamente.")

@@ -1,4 +1,3 @@
-
 from controle.controlador_vendas import ControladorVendas
 from controle.controlador_fornecedores import ControladorFornecedores
 from controle.controlador_produtos import ControladorProdutos
@@ -39,7 +38,7 @@ class ControladorSistema:
     def inicializa_sistema(self):
         self.abre_tela()
 
-    def cadastra_venda(self):
+    def cadastra_vendas(self):
         self.__controlador_vendas.abre_tela()
 
     def cadastra_fornecedor(self):
@@ -59,7 +58,7 @@ class ControladorSistema:
         exit(0)
 
     def abre_tela(self):
-        lista_opcoes = {1: self.cadastra_venda,
+        lista_opcoes = {1: self.cadastra_vendas,
                         2: self.cadastra_fornecedor,
                         3: self.cadastra_produto,
                         4: self.cadastra_pessoa,
